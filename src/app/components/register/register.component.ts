@@ -1,12 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-register',
+  selector: "app-register",
   standalone: true,
-  imports: [],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: "./register.component.html",
+  styleUrl: "./register.component.css",
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
+  constructor(private _fb: FormBuilder) {}
 
+  emptyUsername?: string;
+  invalidEmail?: string;
+  show: boolean = false;
+  invalidPassword?: string;
+  noMatch?: string;
+
+  ngOnInit(): void {}
+
+  registerForm: FormGroup = this._fb.group({
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+  isEmailValid() {}
+
+  validatePassword() {}
+
+  showPassword() {}
+
+  doPasswordsMatch(){
+
+  }
+
+  register() {}
 }
