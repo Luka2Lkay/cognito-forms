@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { AuthService } from "../../services/auth/auth.service";
 @Component({
   selector: "app-register",
   standalone: true,
@@ -10,7 +11,7 @@ import { RouterModule } from "@angular/router";
   styleUrl: "./register.component.css",
 })
 export class RegisterComponent implements OnInit {
-  constructor(private _fb: FormBuilder) {}
+  constructor(private _fb: FormBuilder, private _auth: AuthService) {}
 
   emptyUsername?: string;
   invalidEmail?: string;
@@ -37,5 +38,13 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  register() {}
+  register() {
+   
+    this._auth.register(this.registerForm.value).subscribe({
+      next: () => {
+        console.log("Signup successful!")
+      },
+      error: (err) => console.error("signup error")
+    })
+  }
 }
