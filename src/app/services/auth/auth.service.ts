@@ -39,20 +39,20 @@ export class AuthService {
     ];
 
     return new Observable((observer) => {
-      // this.userPool.signUp(
-      //   data.userName,
-      //   data.password,
-      //   attributes,
-      //   [],
-      //   (err, result) => {
-      //     if (err) {
-      //       observer.error(err.message);
-      //     } else {
-      //       observer.next();
-      //       observer.complete();
-      //     }
-      //   }
-      // );
+      this.userPool.signUp(
+        data.userName,
+        data.password,
+        attributes,
+        [],
+        (err, result) => {
+          if (err) {
+            observer.error(err.message);
+          } else {
+            observer.next();
+            observer.complete();
+          }
+        }
+      );
     });
   }
 }
