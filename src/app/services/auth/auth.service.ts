@@ -36,37 +36,6 @@ export class AuthService {
 
   logIn() {}
 
-  // {
-  //   Username: username,
-  //   Password: password,
-  //   Email: email,
-  //   ...(additionalAttributes || {}), // Add optional additional attributes
-  // }
-
-  async signUp(email: string, password: string){
-    const attributes = [
-      new CognitoUserAttribute({ Name: "email", Value: email }),
-    ];
-    try {
-      const signUpResponse = await this.userPool.signUp(
-        email,
-        password,
-      [],
-        attributes,(err, result) => {
-          if(err) {
-            console.log(err)
-          }
-        }
-    );
-
-      console.log('Sign-up successful:', signUpResponse);
-      return signUpResponse; // Return the sign-up response data
-    } catch (error) {
-      console.error('Sign-up failed:', error);
-      throw error; // Re-throw the error for handling in the component
-    }
-  }
-
   register(data: User): Observable<void> {
     const attributes = [
       new CognitoUserAttribute({ Name: "email", Value: data.email }),
@@ -74,7 +43,7 @@ export class AuthService {
 
     return new Observable((observer) => {
       this.userPool.signUp(
-        data.userName,
+        data.email,
         data.password,
         attributes,
         [],
