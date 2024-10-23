@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormGroup, FormBuilder, ReactiveFormsModule } from "@angular/forms";
-
+import { AuthService } from "../../services/auth/auth.service";
 @Component({
   selector: "app-confirmation",
   standalone: true,
@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, ReactiveFormsModule } from "@angular/forms";
   styleUrl: "./confirmation.component.css",
 })
 export class ConfirmationComponent {
-  constructor(private _fb: FormBuilder) {}
+  constructor(private _fb: FormBuilder, private _auth: AuthService) {}
 
   confirmForm: FormGroup = this._fb.group({
     code: "",
