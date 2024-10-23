@@ -17,6 +17,8 @@ export class ConfirmationComponent {
   });
 
   confirm(){
+    const {code} = this.confirmForm.value
 
+    console.log(code)
   }
 }
