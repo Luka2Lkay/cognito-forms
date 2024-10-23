@@ -22,17 +22,29 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   registerForm: FormGroup = this._fb.group({
-    userName: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
+    userName: "Luks",
+    email: "luka.matshebelele@gmail.com",
+    password: "Lukhanyo#5",
+    confirmPassword: "Lukhanyo#5"
   });
 
   isEmailValid() {}
 
   validatePassword() {}
 
-  showPassword() {}
+  showPassword() {
+    const password = this.registerForm.value.password;
+
+    if (password == "") {
+      this.invalidPassword = "The password can't be empty";
+    } else {
+      if (this.show) {
+        this.show = false;
+      } else {
+        this.show = true;
+      }
+    }
+  }
 
   doPasswordsMatch(){
 

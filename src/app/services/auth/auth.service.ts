@@ -13,7 +13,7 @@ import { User } from "../../interfaces/user";
   providedIn: "root",
 })
 export class AuthService {
-   private userPool: CognitoUserPool;
+  private userPool: CognitoUserPool;
   private user: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
@@ -22,7 +22,7 @@ export class AuthService {
     this.userPool = new CognitoUserPool({
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.userPoolWebClientId,
-     });
+    });
   }
 
   logIn() {}
@@ -33,21 +33,20 @@ export class AuthService {
     ];
 
     return new Observable((observer) => {
-      console.log(environment)
-  //     this.userPool.signUp(
-  //       data.userName,
-  //       data.password,
-  //       attributes,
-  //       [],
-  //       (err, result) => {
-  //         if (err) {
-  //           observer.error(err);
-  //         } else {
-  //           observer.next();
-  //           observer.complete();
-  //         }
-  //       }
-  //     );
+      this.userPool.signUp(
+        data.userName,
+        data.password,
+        attributes,
+        [],
+        (err, result) => {
+          if (err) {
+            observer.error(err.message);
+          } else {
+            observer.next();
+            observer.complete();
+          }
+        }
+      );
     });
   }
 }
