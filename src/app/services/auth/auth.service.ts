@@ -15,8 +15,8 @@ import {fromCognitoIdentityPool} from "@aws-sdk/credential-provider-cognito-iden
 })
 export class AuthService {
   private userPool: CognitoUserPool;
-  private cognitoClient: CognitoIdentityClient;
-  private user: CognitoUser | null = null;
+  // private cognitoClient: CognitoIdentityClient;
+  private cognitoUser: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
 
@@ -26,12 +26,12 @@ export class AuthService {
       ClientId: environment.cognito.userPoolWebClientId,
     });
 
-    this.cognitoClient = new CognitoIdentityClient({
-      region: environment.cognito.region,
-      credentials: fromCognitoIdentityPool({
-        identityPoolId: environment.cognito.userPoolId
-      })
-    })
+    // this.cognitoClient = new CognitoIdentityClient({
+    //   region: environment.cognito.region,
+    //   credentials: fromCognitoIdentityPool({
+    //     identityPoolId: environment.cognito.userPoolId
+    //   })
+    // })
   }
 
   logIn() {}
@@ -57,5 +57,21 @@ export class AuthService {
         }
       );
     });
+  }
+
+  confirmSignUp(email: string, code: string){
+    return new Observable((observer) => {
+
+      this.cognitoUser = new CognitoUser({Username: email, Pool: this.userPool})
+      this.cognitoUser.confirmRegistration(code, false,(err, result) => {
+        if(err){
+          observer.error(err)
+        } else{
+          observer.next();
+          observer.complete();
+        }
+      })
+
+    })
   }
 }

@@ -54,11 +54,10 @@ export class RegisterComponent implements OnInit {
    
     this._auth.register(this.registerForm.value).subscribe({
       next: () => {
-        console.log("Signup successful!")
+        
       },
       error: (err) => console.error("signup error")
     })
 
-    //await this._auth.signUp(this.registerForm.value.email, this.registerForm.value.password).then(()=> console.log("awer!"))
   }
 }
