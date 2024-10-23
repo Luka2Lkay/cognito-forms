@@ -1,6 +1,3 @@
-import 'core-js/es/object';
-import 'zone.js';
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';

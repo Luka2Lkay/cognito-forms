@@ -13,16 +13,16 @@ import { User } from "../../interfaces/user";
   providedIn: "root",
 })
 export class AuthService {
-  // private userPool: CognitoUserPool;
+   private userPool: CognitoUserPool;
   private user: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
 
   constructor() {
-    // this.userPool = new CognitoUserPool({
-    //   UserPoolId: environment.cognito.userPoolId,
-    //   ClientId: environment.cognito.userPoolWebClientId,
-    // });
+    this.userPool = new CognitoUserPool({
+      UserPoolId: environment.cognito.userPoolId,
+      ClientId: environment.cognito.userPoolWebClientId,
+     });
   }
 
   logIn() {}
