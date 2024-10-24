@@ -8,15 +8,11 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
-import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
-
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
   private userPool: CognitoUserPool;
-  // private cognitoClient: CognitoIdentityClient;
   private cognitoUser: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
@@ -27,13 +23,6 @@ export class AuthService {
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.userPoolWebClientId,
     });
-
-    // this.cognitoClient = new CognitoIdentityClient({
-    //   region: environment.cognito.region,
-    //   credentials: fromCognitoIdentityPool({
-    //     identityPoolId: environment.cognito.userPoolId
-    //   })
-    // })
   }
 
   logIn(data: User) {
@@ -54,7 +43,7 @@ export class AuthService {
             this.setUser(this.cognitoUser);
           }
 
-          observer.next(result);
+          observer.next();
         },
         onFailure: (err) => {
           observer.error(err);
