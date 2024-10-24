@@ -61,6 +61,10 @@ export class AuthService {
     });
   }
 
+  getlocalIdToken(): string{
+    return this.idToken$;
+  }
+
   register(data: User): Observable<void> {
     const attributes = [
       new CognitoUserAttribute({ Name: "email", Value: data.email }),
@@ -155,8 +159,9 @@ export class AuthService {
           this.idToken$ = JSON.stringify(session.getIdToken())
       
           this.idToken$ = "hello"
-          console.log(this.idToken$)
-          localStorage.setItem("idToken", JSON.stringify(session.getIdToken()));
+          // console.log(this.idToken$)
+          // localStorage.setItem("idToken", JSON.stringify(session.getIdToken()));
+          localStorage.setItem("idToken", this.idToken$)
           return observer.next(session.getIdToken());
         });
       } else {

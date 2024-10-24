@@ -11,19 +11,22 @@ import { isPlatformBrowser } from "@angular/common";
   styleUrl: "./dashboard.component.css",
 })
 export class DashboardComponent implements OnInit {
-  idToken: string = "";
+  // idToken: string = "";
 
   constructor(
     private _auth: AuthService,
     private _router: Router,
     @Inject(PLATFORM_ID) private _platformId: Object
   ) {
-    if (isPlatformBrowser(this._platformId)) {
-      this.idToken = localStorage.getItem("tokenId") || "";
-    }
+    // if (isPlatformBrowser(this._platformId)) {
+    //   this.idToken = localStorage.getItem("tokenId") || "";
+    // }
   }
 
   ngOnInit(): void {
+    console.log(this._auth.getIdToken().subscribe({
+      next: (res) => console.log(res)
+    }));
     this.getIdToken();
   }
 
@@ -45,9 +48,10 @@ export class DashboardComponent implements OnInit {
   getIdToken() {
     this._auth.getIdToken().subscribe({
       next: (res) => {
-        this.idToken = res.getJwtToken();
-        localStorage.setItem("tokenId", this.idToken);
-        console.log(this.idToken);
+        console.log(res)
+        // this.idToken = res.getJwtToken();
+        // localStorage.setItem("tokenId", this.idToken);
+        // console.log(this.idToken);
       },
       error: () => {
         this._router.navigate(["/login"]);
