@@ -5,6 +5,7 @@ import {
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool,
+  CognitoUserSession,
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
@@ -99,5 +100,22 @@ export class AuthService {
 
   getCurrentUser(): CognitoUser | null {
     return this.cognitoUser;
+  }
+
+  getSession(): Observable<CognitoUserSession> {
+    const user = this.getCurrentUser();
+
+    return new Observable((observer) => {
+      if (user) {
+        user.getSession((err: any, session: any) => {
+          if (err) {
+            return observer.error(err);
+          }
+          return observer.next(session);
+        });
+      } else {
+        throw new Error("There user is not signed in!");
+      }
+    });
   }
 }
