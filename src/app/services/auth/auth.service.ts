@@ -10,6 +10,7 @@ import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+
 @Injectable({
   providedIn: "root",
 })
@@ -35,7 +36,32 @@ export class AuthService {
     // })
   }
 
-  logIn() {}
+  logIn(data: User) {
+    const authenticationDetails = new AuthenticationDetails({
+      Username: data.email,
+      Password: data.password,
+    });
+
+    return new Observable((observer) => {
+      this.cognitoUser = new CognitoUser({
+        Username: data.email,
+        Pool: this.userPool,
+      });
+
+      this.cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          if (this.cognitoUser) {
+            this.setUser(this.cognitoUser);
+          }
+
+          observer.next(result);
+        },
+        onFailure: (err) => {
+          observer.error(err);
+        },
+      });
+    });
+  }
 
   register(data: User): Observable<void> {
     const attributes = [
@@ -76,5 +102,13 @@ export class AuthService {
         }
       });
     });
+  }
+
+  private setUser(user: CognitoUser): CognitoUser {
+    return user;
+  }
+
+  getCurrentUser(): CognitoUser | null {
+    return this.cognitoUser;
   }
 }
