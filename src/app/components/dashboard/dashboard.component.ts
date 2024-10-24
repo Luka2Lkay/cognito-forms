@@ -24,7 +24,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
     this.getIdToken();
   }
 
@@ -44,12 +43,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getIdToken() {
-    // if (this._auth.idToken$) {
-    //   console.log(this._auth.idToken$);
-    // } else {
-    //   this._router.navigate(["/login"]);
-    // }
-
     this._auth.getIdToken().subscribe({
       next: (res) => {
         this.idToken = res.getJwtToken();
@@ -57,8 +50,7 @@ export class DashboardComponent implements OnInit {
         console.log(this.idToken);
       },
       error: () => {
-  console.error
-        // this._router.navigate(["/login"]);
+        this._router.navigate(["/login"]);
       },
     });
   }
