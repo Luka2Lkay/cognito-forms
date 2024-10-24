@@ -8,8 +8,8 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
-import {CognitoIdentityClient} from "@aws-sdk/client-cognito-identity"
-import {fromCognitoIdentityPool} from "@aws-sdk/credential-provider-cognito-identity"
+import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
+import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 @Injectable({
   providedIn: "root",
 })
@@ -19,6 +19,7 @@ export class AuthService {
   private cognitoUser: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
+  public email$ = "";
 
   constructor() {
     this.userPool = new CognitoUserPool({
@@ -51,6 +52,7 @@ export class AuthService {
           if (err) {
             observer.error(err.message);
           } else {
+            this.email$ = data.email;
             observer.next();
             observer.complete();
           }
@@ -59,19 +61,20 @@ export class AuthService {
     });
   }
 
-  confirmSignUp(email: string, code: string){
+  confirmSignUp(email: string, code: string) {
     return new Observable((observer) => {
-
-      this.cognitoUser = new CognitoUser({Username: email, Pool: this.userPool})
-      this.cognitoUser.confirmRegistration(code, false,(err, result) => {
-        if(err){
-          observer.error(err)
-        } else{
+      this.cognitoUser = new CognitoUser({
+        Username: email,
+        Pool: this.userPool,
+      });
+      this.cognitoUser.confirmRegistration(code, false, (err, result) => {
+        if (err) {
+          observer.error(err);
+        } else {
           observer.next();
           observer.complete();
         }
-      })
-
-    })
+      });
+    });
   }
 }

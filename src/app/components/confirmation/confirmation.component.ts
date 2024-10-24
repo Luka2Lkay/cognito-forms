@@ -23,7 +23,10 @@ export class ConfirmationComponent {
 
   confirm() {
     const { code } = this.confirmForm.value;
-    this._auth.confirmSignUp("luka.matshebelele@gmail.com", code).subscribe({
+
+    const userEmail = this._auth.email$;
+
+    this._auth.confirmSignUp(userEmail, code).subscribe({
       next: () => {
         this._router.navigate(["/dashboard"]);
       },
