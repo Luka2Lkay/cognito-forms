@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   AuthenticationDetails,
@@ -11,7 +12,7 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
-import { CognitoIdentity } from "@aws-sdk/client-cognito-identity";
+
 @Injectable({
   providedIn: "root",
 })
@@ -21,14 +22,18 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
   public email$ = "";
+  public idToken$: string = "";
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private _platformId: Object) {
     this.userPool = new CognitoUserPool({
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.userPoolWebClientId,
     });
-  }
 
+    // if (isPlatformBrowser(this._platformId)) {
+    //   this.idToken$ = localStorage.getItem("idToken");
+    // }
+  }
   logIn(data: User) {
     const authenticationDetails = new AuthenticationDetails({
       Username: data.email,
@@ -147,6 +152,11 @@ export class AuthService {
           if (err) {
             return observer.error(err);
           }
+          this.idToken$ = JSON.stringify(session.getIdToken())
+      
+          this.idToken$ = "hello"
+          console.log(this.idToken$)
+          localStorage.setItem("idToken", JSON.stringify(session.getIdToken()));
           return observer.next(session.getIdToken());
         });
       } else {

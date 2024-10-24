@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
 import { RouterModule } from "@angular/router";
 import { Router } from "@angular/router";
+import { isPlatformBrowser } from "@angular/common";
 @Component({
   selector: "app-dashboard",
   standalone: true,
@@ -10,9 +11,21 @@ import { Router } from "@angular/router";
   styleUrl: "./dashboard.component.css",
 })
 export class DashboardComponent implements OnInit {
-  constructor(private _auth: AuthService, private _router: Router) {}
+  idToken: string = "";
+
+  constructor(
+    private _auth: AuthService,
+    private _router: Router,
+    @Inject(PLATFORM_ID) private _platformId: Object
+  ) {
+    if (isPlatformBrowser(this._platformId)) {
+      this.idToken = localStorage.getItem("tokenId") || "";
+    }
+  }
+
   ngOnInit(): void {
-    this.checkSessionValidity();
+    console.log(this.idToken)
+    this.getIdToken();
   }
 
   getSession() {
@@ -31,10 +44,21 @@ export class DashboardComponent implements OnInit {
   }
 
   getIdToken() {
+    // if (this._auth.idToken$) {
+    //   console.log(this._auth.idToken$);
+    // } else {
+    //   this._router.navigate(["/login"]);
+    // }
+
     this._auth.getIdToken().subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+        this.idToken = res.getJwtToken();
+        localStorage.setItem("tokenId", this.idToken);
+        console.log(this.idToken);
+      },
       error: () => {
-        this._router.navigate(["/login"]);
+  console.error
+        // this._router.navigate(["/login"]);
       },
     });
   }
@@ -44,7 +68,7 @@ export class DashboardComponent implements OnInit {
       next: (res) => console.log(res),
       error: () => {
         this._router.navigate(["/login"]);
-      }
-    })
+      },
+    });
   }
 }

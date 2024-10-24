@@ -24,10 +24,12 @@ export class LoginComponent implements OnInit {
   });
 
   logIn() {
+
     this._auth.logIn(this.logInForm.value).subscribe({
       next: () => {
         this._router.navigate(["/dashboard"]);
-      }
+      },
+      error: (error) => console.log(error.message)
     })
   }
 
