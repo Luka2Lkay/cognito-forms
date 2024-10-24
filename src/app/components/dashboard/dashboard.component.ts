@@ -10,10 +10,8 @@ import { RouterModule } from '@angular/router';
 })
 export class DashboardComponent implements OnInit{
 
-  email: string = this._auth.email$
   constructor(private _auth: AuthService){}
   ngOnInit(): void {
-    console.log(this.email)
     console.log(this._auth.getCurrentUser())
   }
 }
