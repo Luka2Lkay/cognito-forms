@@ -11,6 +11,7 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
+import { CognitoIdentity } from "@aws-sdk/client-cognito-identity";
 @Injectable({
   providedIn: "root",
 })
@@ -147,6 +148,23 @@ export class AuthService {
             return observer.error(err);
           }
           return observer.next(session.getIdToken());
+        });
+      } else {
+        throw new Error("The user is not signed in!");
+      }
+    });
+  }
+
+  checkSessionValidity(): Observable<boolean> {
+    const user = this.getCurrentUser();
+
+    return new Observable((observable) => {
+      if (user) {
+        user.getSession((err: any, session: CognitoUserSession) => {
+          if (err) {
+            return observable.error(err);
+          }
+          return observable.next(session.isValid());
         });
       } else {
         throw new Error("The user is not signed in!");

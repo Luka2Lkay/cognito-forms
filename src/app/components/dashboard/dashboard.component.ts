@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 export class DashboardComponent implements OnInit {
   constructor(private _auth: AuthService, private _router: Router) {}
   ngOnInit(): void {
-    this.getIdToken();
+    this.checkSessionValidity();
   }
 
   getSession() {
@@ -37,5 +37,14 @@ export class DashboardComponent implements OnInit {
         this._router.navigate(["/login"]);
       },
     });
+  }
+
+  checkSessionValidity() {
+    this._auth.checkSessionValidity().subscribe({
+      next: (res) => console.log(res),
+      error: () => {
+        this._router.navigate(["/login"]);
+      }
+    })
   }
 }
