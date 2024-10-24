@@ -11,15 +11,22 @@ import { Router } from "@angular/router";
   styleUrl: "./confirmation.component.css",
 })
 export class ConfirmationComponent {
-  constructor(private _fb: FormBuilder, private _auth: AuthService, private _router: Router) {}
+  constructor(
+    private _fb: FormBuilder,
+    private _auth: AuthService,
+    private _router: Router
+  ) {}
 
   confirmForm: FormGroup = this._fb.group({
     code: "",
   });
 
-  confirm(){
-    const {code} = this.confirmForm.value
-
-    console.log(code)
+  confirm() {
+    const { code } = this.confirmForm.value;
+    this._auth.confirmSignUp("luka.matshebelele@gmail.com", code).subscribe({
+      next: () => {
+        this._router.navigate(["/dashboard"]);
+      },
+    });
   }
 }
