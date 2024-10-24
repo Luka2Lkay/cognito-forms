@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   AuthenticationDetails,
+  CognitoAccessToken,
+  CognitoIdToken,
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool,
@@ -107,7 +109,7 @@ export class AuthService {
 
     return new Observable((observer) => {
       if (user) {
-        user.getSession((err: any, session: any) => {
+        user.getSession((err: any, session: CognitoUserSession) => {
           if (err) {
             return observer.error(err);
           }
@@ -115,6 +117,39 @@ export class AuthService {
         });
       } else {
         throw new Error("There user is not signed in!");
+      }
+    });
+  }
+
+  getAccessToken(): Observable<CognitoAccessToken> {
+    const user = this.getCurrentUser();
+
+    return new Observable((observer) => {
+      if (user) {
+        user.getSession((err: any, session: CognitoUserSession) => {
+          if (err) {
+            return observer.error(err);
+          }
+          return observer.next(session.getAccessToken());
+        });
+      } else {
+        throw new Error("There user is not signed in!");
+      }
+    });
+  }
+
+  getIdToken(): Observable<CognitoIdToken> {
+    const user = this.getCurrentUser();
+    return new Observable((observer) => {
+      if (user) {
+        user.getSession((err: any, session: CognitoUserSession) => {
+          if (err) {
+            return observer.error(err);
+          }
+          return observer.next(session.getIdToken());
+        });
+      } else {
+        throw new Error("The user is not signed in!");
       }
     });
   }
