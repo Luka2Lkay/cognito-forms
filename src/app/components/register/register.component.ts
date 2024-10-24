@@ -1,8 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth/auth.service";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-register",
   standalone: true,
@@ -11,7 +17,11 @@ import { AuthService } from "../../services/auth/auth.service";
   styleUrl: "./register.component.css",
 })
 export class RegisterComponent implements OnInit {
-  constructor(private _fb: FormBuilder, private _auth: AuthService) {}
+  constructor(
+    private _fb: FormBuilder,
+    private _auth: AuthService,
+    private _router: Router
+  ) {}
 
   emptyUsername?: string;
   invalidEmail?: string;
@@ -25,7 +35,7 @@ export class RegisterComponent implements OnInit {
     userName: "Luks",
     email: "luka.matshebelele@gmail.com",
     password: "Lukhanyo#5",
-    confirmPassword: "Lukhanyo#5"
+    confirmPassword: "Lukhanyo#5",
   });
 
   isEmailValid() {}
@@ -46,18 +56,14 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  doPasswordsMatch(){
+  doPasswordsMatch() {}
 
-  }
-
-   register() {
-   
+  register() {
     this._auth.register(this.registerForm.value).subscribe({
       next: () => {
-        
+        this._router.navigate(["/confirm"]);
       },
-      error: (err) => console.error("signup error")
-    })
-
+      error: (err) => console.error("signup error"),
+    });
   }
 }
