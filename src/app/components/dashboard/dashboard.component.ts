@@ -24,10 +24,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this._auth.getIdToken().subscribe({
-      next: (res) => console.log(res)
-    }));
-    this.getIdToken();
+    // console.log(this._auth.getIdToken().subscribe({
+    //   next: (res) => console.log(res)
+    // }));
+    console.log(this._auth.getCurrentUser())
+    // this.getIdToken();
   }
 
   getSession() {

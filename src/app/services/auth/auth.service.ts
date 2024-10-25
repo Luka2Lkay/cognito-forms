@@ -29,11 +29,8 @@ export class AuthService {
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.userPoolWebClientId,
     });
-
-    // if (isPlatformBrowser(this._platformId)) {
-    //   this.idToken$ = localStorage.getItem("idToken");
-    // }
   }
+
   logIn(data: User) {
     const authenticationDetails = new AuthenticationDetails({
       Username: data.email,
@@ -61,8 +58,14 @@ export class AuthService {
     });
   }
 
-  getlocalIdToken(): string{
-    return this.idToken$;
+  getlocalIdToken(): Observable<string>{
+    return new Observable(observer => {
+
+      if(this.idToken$) {
+        return observer.next(this.idToken$);
+      }
+  return observer.error("no token!")
+    })
   }
 
   register(data: User): Observable<void> {
@@ -157,10 +160,7 @@ export class AuthService {
             return observer.error(err);
           }
           this.idToken$ = JSON.stringify(session.getIdToken())
-      
-          this.idToken$ = "hello"
-          // console.log(this.idToken$)
-          // localStorage.setItem("idToken", JSON.stringify(session.getIdToken()));
+        
           localStorage.setItem("idToken", this.idToken$)
           return observer.next(session.getIdToken());
         });
