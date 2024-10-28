@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from "@angular/common";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable} from "rxjs";
 import {
   AuthenticationDetails,
   CognitoAccessToken,
@@ -22,13 +22,17 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
   public email$ = "";
-  public idToken$: string = "";
+  public idToken$: any;
 
   constructor(@Inject(PLATFORM_ID) private _platformId: Object) {
     this.userPool = new CognitoUserPool({
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.userPoolWebClientId,
     });
+
+    if (isPlatformBrowser(this._platformId)) {
+      this.idToken$ = localStorage.getItem("idToken") || null;
+    }
   }
 
   logIn(data: User) {
@@ -58,14 +62,13 @@ export class AuthService {
     });
   }
 
-  getlocalIdToken(): Observable<string>{
-    return new Observable(observer => {
-
-      if(this.idToken$) {
+  getlocalIdToken(): Observable<string> {
+    return new Observable((observer) => {
+      if (this.idToken$) {
         return observer.next(this.idToken$);
       }
-  return observer.error("no token!")
-    })
+      return observer.error("no token!");
+    });
   }
 
   register(data: User): Observable<void> {
@@ -153,16 +156,17 @@ export class AuthService {
 
   getIdToken(): Observable<CognitoIdToken> {
     const user = this.getCurrentUser();
+
     return new Observable((observer) => {
       if (user) {
         user.getSession((err: any, session: CognitoUserSession) => {
           if (err) {
             return observer.error(err);
           }
-          this.idToken$ = JSON.stringify(session.getIdToken())
-        
-          localStorage.setItem("idToken", this.idToken$)
-          return observer.next(session.getIdToken());
+          this.idToken$ = session.getIdToken();
+
+          localStorage.setItem("idToken", this.idToken$);
+          return observer.next(this.idToken$);
         });
       } else {
         throw new Error("The user is not signed in!");

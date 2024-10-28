@@ -11,35 +11,32 @@ import { isPlatformBrowser } from "@angular/common";
   styleUrl: "./dashboard.component.css",
 })
 export class DashboardComponent implements OnInit {
-  // idToken: string = "";
-
   constructor(
     private _auth: AuthService,
     private _router: Router,
     @Inject(PLATFORM_ID) private _platformId: Object
-  ) {
-    // if (isPlatformBrowser(this._platformId)) {
-    //   this.idToken = localStorage.getItem("tokenId") || "";
-    // }
-  }
+  ) {}
+
+  test: any;
 
   ngOnInit(): void {
-    // console.log(this._auth.getIdToken().subscribe({
-    //   next: (res) => console.log(res)
-    // }));
-    console.log(this._auth.getCurrentUser())
-    // this.getIdToken();
+    this.getIdToken();
+    console.log(this.test);
   }
 
   getSession() {
     this._auth.getSession().subscribe({
       next: (res) => console.log(res),
     });
+    this._auth.idToken$;
   }
 
   getAccessToken() {
     this._auth.getAccessToken().subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+        res = JSON.parse(this._auth.idToken$);
+        console.log(res);
+      },
       error: () => {
         this._router.navigate(["/login"]);
       },
@@ -49,10 +46,7 @@ export class DashboardComponent implements OnInit {
   getIdToken() {
     this._auth.getIdToken().subscribe({
       next: (res) => {
-        console.log(res)
-        // this.idToken = res.getJwtToken();
-        // localStorage.setItem("tokenId", this.idToken);
-        // console.log(this.idToken);
+        this.test = res;
       },
       error: () => {
         this._router.navigate(["/login"]);
