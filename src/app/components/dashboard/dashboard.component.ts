@@ -20,8 +20,10 @@ export class DashboardComponent implements OnInit {
   test: any;
 
   ngOnInit(): void {
+    
     this.getIdToken();
-    console.log(this.test);
+    console.log(this._auth.idToken$);
+    // console.log(this.test);
   }
 
   getSession() {
