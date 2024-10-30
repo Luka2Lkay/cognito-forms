@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.getIdToken();
-    console.log(this._auth.idToken$);
+    // this.checkSessionValidity()
+    console.log(this.getIdToken());
     // console.log(this.test);
   }
 
@@ -48,10 +48,11 @@ export class DashboardComponent implements OnInit {
   getIdToken() {
     this._auth.getIdToken().subscribe({
       next: (res) => {
-        this.test = res;
+        console.log(res)
       },
-      error: () => {
-        this._router.navigate(["/login"]);
+      error: (err) => {
+        console.log(err)
+        // this._router.navigate(["/login"]);
       },
     });
   }
@@ -59,8 +60,9 @@ export class DashboardComponent implements OnInit {
   checkSessionValidity() {
     this._auth.checkSessionValidity().subscribe({
       next: (res) => console.log(res),
-      error: () => {
-        this._router.navigate(["/login"]);
+      error: (error) => {
+        console.log(error)
+        // this._router.navigate(["/login"]);
       },
     });
   }

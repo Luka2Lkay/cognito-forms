@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from "@angular/common";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
-import { BehaviorSubject, Observable} from "rxjs";
+import { BehaviorSubject, map, Observable } from "rxjs";
 import {
   AuthenticationDetails,
   CognitoAccessToken,
@@ -22,6 +22,7 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
   public email$ = "";
+  private userSe$: string | null = "";
   public idToken$: any;
 
   constructor(@Inject(PLATFORM_ID) private _platformId: Object) {
@@ -31,7 +32,9 @@ export class AuthService {
     });
 
     if (isPlatformBrowser(this._platformId)) {
-      this.idToken$ = localStorage.getItem("idToken") || null;
+      this.userSe$ = sessionStorage.getItem("user") || null;
+      this.idToken$ = sessionStorage.getItem("idToken") || null;
+      // this.cognitoUser = result as CognitoUser || null;
     }
   }
 
@@ -50,9 +53,14 @@ export class AuthService {
       this.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
           if (this.cognitoUser) {
+            sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
             this.setUser(this.cognitoUser);
           }
-
+          this.getIdToken().pipe(
+            map((res) => {
+              sessionStorage.setItem("idToken", JSON.stringify(res));
+            })
+          );
           observer.next();
         },
         onFailure: (err) => {
@@ -117,6 +125,7 @@ export class AuthService {
   }
 
   getCurrentUser(): CognitoUser | null {
+
     return this.cognitoUser;
   }
 
@@ -155,18 +164,39 @@ export class AuthService {
   }
 
   getIdToken(): Observable<CognitoIdToken> {
-    const user = this.getCurrentUser();
+    // let user = this.getCurrentUser()
 
     return new Observable((observer) => {
+      const user = sessionStorage.getItem("user");
+
+      // if(test) {
+      //   console.log(JSON.parse(test))
+      // }
+
+      // const test = sessionStorage.getItem("user")
+      // const test2 = test as CognitoUser
+      // console.log(test)
+      // console.log(test);
       if (user) {
-        user.getSession((err: any, session: CognitoUserSession) => {
+        const userObject = JSON.parse(user);
+console.log(this.cognitoUser)
+        userObject.getSession((err: any, session: CognitoUserSession) => {
           if (err) {
             return observer.error(err);
           }
-          this.idToken$ = session.getIdToken();
+          const idToken = session.getIdToken();
+          const sessionStorageIdToken = sessionStorage.getItem("idToken");
 
-          localStorage.setItem("idToken", this.idToken$);
-          return observer.next(this.idToken$);
+          if (sessionStorageIdToken) {
+            console.log("sessionStorage");
+            observer.next(JSON.parse(sessionStorageIdToken));
+          } else {
+            this.idToken$ = idToken;
+            // localStorage.setItem("idToken", this.idToken$);
+            // sessionStorage.setItem("idToken", JSON.stringify(this.idToken$));
+
+            return observer.next(this.idToken$);
+          }
         });
       } else {
         throw new Error("The user is not signed in!");
