@@ -34,7 +34,6 @@ export class AuthService {
     if (isPlatformBrowser(this._platformId)) {
       this.userSe$ = sessionStorage.getItem("user") || null;
       this.idToken$ = sessionStorage.getItem("idToken") || null;
-      // this.cognitoUser = result as CognitoUser || null;
     }
   }
 
@@ -168,15 +167,7 @@ export class AuthService {
 
     return new Observable((observer) => {
       const user = sessionStorage.getItem("user");
-
-      // if(test) {
-      //   console.log(JSON.parse(test))
-      // }
-
-      // const test = sessionStorage.getItem("user")
-      // const test2 = test as CognitoUser
-      // console.log(test)
-      // console.log(test);
+      
       if (user) {
         const userObject = JSON.parse(user);
 console.log(this.cognitoUser)
