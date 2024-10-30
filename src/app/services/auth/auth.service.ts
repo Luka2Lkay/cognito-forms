@@ -22,8 +22,8 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
   public email$ = "";
-  private userSe$: string | null = "";
-  public idToken$: any;
+  public userSe$: string | null = "";
+  public idToken$: string | null = "";
 
   constructor(@Inject(PLATFORM_ID) private _platformId: Object) {
     this.userPool = new CognitoUserPool({
@@ -32,8 +32,8 @@ export class AuthService {
     });
 
     if (isPlatformBrowser(this._platformId)) {
-      this.userSe$ = sessionStorage.getItem("user") || null;
-      this.idToken$ = sessionStorage.getItem("idToken") || null;
+      this.userSe$ = sessionStorage.getItem("user");
+      this.idToken$ = sessionStorage.getItem("idToken");
     }
   }
 
@@ -54,12 +54,18 @@ export class AuthService {
           if (this.cognitoUser) {
             sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
             this.setUser(this.cognitoUser);
+          
           }
-          this.getIdToken().pipe(
-            map((res) => {
+
+          // console.log(this.idToken$)
+
+          this.getIdToken().subscribe({
+            next: (res) => {
+              this.setIdToken(res)
+              console.log(res)
               sessionStorage.setItem("idToken", JSON.stringify(res));
-            })
-          );
+            }
+          });
           observer.next();
         },
         onFailure: (err) => {
@@ -69,12 +75,13 @@ export class AuthService {
     });
   }
 
-  getlocalIdToken(): Observable<string> {
+  getIdPayload(): Observable<any> {
     return new Observable((observer) => {
       if (this.idToken$) {
-        return observer.next(this.idToken$);
+        
+        return observer.next(JSON.parse(this.idToken$).payload);
       }
-      return observer.error("no token!");
+      // return observer.error("no token!");
     });
   }
 
@@ -123,8 +130,11 @@ export class AuthService {
     return user;
   }
 
-  getCurrentUser(): CognitoUser | null {
+  private setIdToken(token: CognitoIdToken): CognitoIdToken {
+    return token;
+  }
 
+  getCurrentUser(): CognitoUser | null {
     return this.cognitoUser;
   }
 
@@ -163,34 +173,22 @@ export class AuthService {
   }
 
   getIdToken(): Observable<CognitoIdToken> {
-    // let user = this.getCurrentUser()
+    const user = this.getCurrentUser();
 
     return new Observable((observer) => {
-      const user = sessionStorage.getItem("user");
-      
       if (user) {
-        const userObject = JSON.parse(user);
-console.log(this.cognitoUser)
-        userObject.getSession((err: any, session: CognitoUserSession) => {
+        user.getSession((err: any, session: CognitoUserSession) => {
           if (err) {
             return observer.error(err);
           }
-          const idToken = session.getIdToken();
-          const sessionStorageIdToken = sessionStorage.getItem("idToken");
-
-          if (sessionStorageIdToken) {
-            console.log("sessionStorage");
-            observer.next(JSON.parse(sessionStorageIdToken));
-          } else {
-            this.idToken$ = idToken;
-            // localStorage.setItem("idToken", this.idToken$);
-            // sessionStorage.setItem("idToken", JSON.stringify(this.idToken$));
-
-            return observer.next(this.idToken$);
-          }
+         
+            return observer.next(session.getIdToken());
+         
         });
       } else {
-        throw new Error("The user is not signed in!");
+        if (this.userSe$) {
+          const userObject = JSON.parse(this.userSe$) as CognitoUser;
+        }
       }
     });
   }

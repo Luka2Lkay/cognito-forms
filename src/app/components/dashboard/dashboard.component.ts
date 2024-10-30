@@ -17,13 +17,11 @@ export class DashboardComponent implements OnInit {
     @Inject(PLATFORM_ID) private _platformId: Object
   ) {}
 
-  test: any;
+  userInfo: any;
 
   ngOnInit(): void {
     
-    // this.checkSessionValidity()
-    console.log(this.getIdToken());
-    // console.log(this.test);
+    this.getIdPayload();
   }
 
   getSession() {
@@ -36,7 +34,7 @@ export class DashboardComponent implements OnInit {
   getAccessToken() {
     this._auth.getAccessToken().subscribe({
       next: (res) => {
-        res = JSON.parse(this._auth.idToken$);
+     
         console.log(res);
       },
       error: () => {
@@ -45,16 +43,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getIdToken() {
-    this._auth.getIdToken().subscribe({
+  getIdPayload() {
+    this._auth.getIdPayload().subscribe({
       next: (res) => {
-        console.log(res)
-      },
-      error: (err) => {
-        console.log(err)
-        // this._router.navigate(["/login"]);
-      },
-    });
+        this.userInfo = res
+      }
+    })
   }
 
   checkSessionValidity() {
