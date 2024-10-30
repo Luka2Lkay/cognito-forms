@@ -47,6 +47,10 @@ export class DashboardComponent implements OnInit {
     this._auth.getIdPayload().subscribe({
       next: (res) => {
         this.userInfo = res
+      },
+      error: () =>{
+        
+        this._router.navigate(["/login"])
       }
     })
   }
