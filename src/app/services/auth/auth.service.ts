@@ -48,6 +48,7 @@ export class AuthService {
     if (user) {
       user.getSession((err: any, session: CognitoUserSession) => {
         if (!err) {
+          console.log(session.getIdToken())
           this.sessionToken$ = session.getIdToken().getJwtToken();
         }
       });
@@ -218,13 +219,9 @@ export class AuthService {
           if (err) {
             return observer.error(err);
           }
-
           return observer.next(session.getIdToken());
         });
       } else {
-        // if (this.userSe$) {
-        //   const userObject = JSON.parse(this.userSe$) as CognitoUser;
-        // }
         return observer.error("error!");
       }
     });
