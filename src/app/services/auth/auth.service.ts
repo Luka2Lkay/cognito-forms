@@ -176,22 +176,22 @@ export class AuthService {
     // user.refreshSession
   }
 
-  // getSession(): Observable<CognitoUserSession> {
-  //   const user = this.getCurrentUser();
+  getSession(): Observable<CognitoUserSession> {
+    const user = this.getCurrentUser();
 
-  //   return new Observable((observer) => {
-  //     if (user) {
-  //       user.getSession((err: any, session: CognitoUserSession) => {
-  //         if (err) {
-  //           return observer.error(err);
-  //         }
-  //         return observer.next(session);
-  //       });
-  //     } else {
-  //       throw new Error("There user is not signed in!");
-  //     }
-  //   });
-  // }
+    return new Observable((observer) => {
+      if (user) {
+        user.getSession((err: any, session: CognitoUserSession) => {
+          if (err) {
+            return observer.error(err);
+          }
+          return observer.next(session);
+        });
+      } else {
+        throw new Error("There user is not signed in!");
+      }
+    });
+  }
 
   getAccessToken(): Observable<CognitoAccessToken> {
     const user = this.getCurrentUser();
