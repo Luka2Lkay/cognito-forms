@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   userInfo: any;
 
   ngOnInit(): void {
-    this.checkSessionValidity();
+    // this.checkSessionValidity();
     this.getIdPayload();
   }
 
@@ -56,13 +56,24 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  checkSessionValidity() {
-    this._auth.checkSessionValidity().subscribe({
-      next: (res) => res,
-      error: (error) => {
+  // checkSessionValidity() {
+  //   this._auth.checkSessionValidity().subscribe({
+  //     next: (res) => console.log(res),
+  //     error: (error) => {
         
-        this._router.navigate(["/login"]);
-      },
-    });
+  //       this._router.navigate(["/login"]);
+  //     },
+  //   });
+  // }
+
+  logOut(){
+    this._auth.logout().subscribe({
+      next: () => console.log("out!"),
+      error: () => {
+        this._router.navigate(["/login"])
+      }
+    })
+    console.log("hi")
+    // this.checkSessionValidity()
   }
 }

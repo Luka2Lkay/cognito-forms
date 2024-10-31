@@ -32,10 +32,10 @@ export class AuthService {
       ClientId: environment.cognito.userPoolWebClientId,
     });
 
-    if (isPlatformBrowser(this._platformId)) {
-      this.userSe$ = sessionStorage.getItem("user");
-      this.idToken$ = sessionStorage.getItem("idToken");
-    }
+    // if (isPlatformBrowser(this._platformId)) {
+    //   this.userSe$ = sessionStorage.getItem("user");
+    //   this.idToken$ = sessionStorage.getItem("idToken");
+    // }
   }
 
   logIn(data: User) {
@@ -53,19 +53,18 @@ export class AuthService {
       this.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
           if (this.cognitoUser) {
-            sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
+            // sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
             this.setUser(this.cognitoUser);
-          
           }
 
           // console.log(this.idToken$)
 
           this.getIdToken().subscribe({
             next: (res) => {
-              this.setIdToken(res)
-              console.log(res)
-              sessionStorage.setItem("idToken", JSON.stringify(res));
-            }
+              this.setIdToken(res);
+              console.log(res);
+              // sessionStorage.setItem("idToken", JSON.stringify(res));
+            },
           });
           observer.next();
         },
@@ -76,11 +75,21 @@ export class AuthService {
     });
   }
 
+  // getIdPayload(): Observable<any> {
+    
+  //   return new Observable((observer) => {
+  //     if (this.idToken$) {
+  //       return observer.next(JSON.parse(this.idToken$).payload);
+  //     }
+  //     // return observer.error("no token!");
+  //   });
+  // }
+
   getIdPayload(): Observable<any> {
+    const user = this.getCurrentUser();
     return new Observable((observer) => {
-      if (this.idToken$) {
-        
-        return observer.next(JSON.parse(this.idToken$).payload);
+      if (user) {
+        return observer.next(user);
       }
       // return observer.error("no token!");
     });
@@ -182,36 +191,47 @@ export class AuthService {
           if (err) {
             return observer.error(err);
           }
-         
-            return observer.next(session.getIdToken());
-         
+
+          return observer.next(session.getIdToken());
         });
       } else {
-        if (this.userSe$) {
-          const userObject = JSON.parse(this.userSe$) as CognitoUser;
-        }
+        // if (this.userSe$) {
+        //   const userObject = JSON.parse(this.userSe$) as CognitoUser;
+        // }
+        return observer.error("error!")
       }
     });
   }
 
-  checkSessionValidity(): Observable<boolean> {
-    const user = this.getCurrentUser();
+  // checkSessionValidity(): Observable<boolean> {
+  //   const user = this.getCurrentUser();
 
-    return new Observable((observable) => {
-      if (user) {
-        user.getSession((err: any, session: CognitoUserSession) => {
-          if (err) {
-            return observable.error(err);
-          }
-          return observable.next(session.isValid());
-        });
-      } else {
-        if (this.userSe$) {
-         return observable.next(true);
-        }else {
-          return observable.error("Not signed in!")
-        }
-      }
+  //   return new Observable((observable) => {
+  //     if (user) {
+  //       user.getSession((err: any, session: CognitoUserSession) => {
+  //         if (err) {
+  //           return observable.error(err);
+  //         }
+  //         return observable.next(session.isValid());
+  //       });
+  //     } else {
+  //       if (this.userSe$) {
+  //         return observable.next(true);
+  //       } else {
+  //         return observable.error("Not signed in!");
+  //       }
+  //     }
+  //   });
+  // }
+
+  logout(): Observable<any> {
+    
+
+    return new Observable((observer) => {
+      observer.error('error!')
+      // if (this.userSe$) {
+      //   sessionStorage.clear();
+      // }
     });
   }
 }
