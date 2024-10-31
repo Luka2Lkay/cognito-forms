@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   userInfo: any;
 
   ngOnInit(): void {
-    
+    this.checkSessionValidity();
     this.getIdPayload();
   }
 
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
     this._auth.getIdPayload().subscribe({
       next: (res) => {
         this.userInfo = res
-  console.log(this.userInfo.email)
+  console.log(this.userInfo)
       },
       error: () =>{
         

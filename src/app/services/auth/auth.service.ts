@@ -12,6 +12,7 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
+import { Session } from "node:inspector";
 
 @Injectable({
   providedIn: "root",
@@ -205,7 +206,11 @@ export class AuthService {
           return observable.next(session.isValid());
         });
       } else {
-        throw new Error("The user is not signed in!");
+        if (this.userSe$) {
+         return observable.next(true);
+        }else {
+          return observable.error("Not signed in!")
+        }
       }
     });
   }
