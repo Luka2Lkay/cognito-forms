@@ -58,10 +58,10 @@ export class DashboardComponent implements OnInit {
 
   checkSessionValidity() {
     this._auth.checkSessionValidity().subscribe({
-      next: (res) => console.log(res),
+      next: (res) => res,
       error: (error) => {
-        console.log(error)
-        // this._router.navigate(["/login"]);
+        
+        this._router.navigate(["/login"]);
       },
     });
   }
