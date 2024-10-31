@@ -89,7 +89,9 @@ export class AuthService {
     const user = this.getCurrentUser();
     return new Observable((observer) => {
       if (user) {
-        return observer.next(user);
+        user.getSession((err:any, session: CognitoUserSession) => {
+          observer.next(session.getIdToken().payload)
+        })
       }
       // return observer.error("no token!");
     });

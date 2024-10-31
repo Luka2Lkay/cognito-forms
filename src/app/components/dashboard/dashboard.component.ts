@@ -46,7 +46,9 @@ export class DashboardComponent implements OnInit {
   getIdPayload() {
     this._auth.getIdPayload().subscribe({
       next: (res) => {
+
         this.userInfo = res
+
   console.log(this.userInfo)
       },
       error: () =>{
