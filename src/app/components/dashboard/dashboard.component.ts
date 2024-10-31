@@ -24,24 +24,24 @@ export class DashboardComponent implements OnInit {
     this.getIdPayload();
   }
 
-  getSession() {
-    this._auth.getSession().subscribe({
-      next: (res) => console.log(res),
-    });
-    this._auth.idToken$;
-  }
+  // getSession() {
+  //   this._auth.getSession().subscribe({
+  //     next: (res) => console.log(res),
+  //   });
+  //   this._auth.idToken$;
+  // }
 
-  getAccessToken() {
-    this._auth.getAccessToken().subscribe({
-      next: (res) => {
+  // getAccessToken() {
+  //   this._auth.getAccessToken().subscribe({
+  //     next: (res) => {
      
-        console.log(res);
-      },
-      error: () => {
-        this._router.navigate(["/login"]);
-      },
-    });
-  }
+  //       console.log(res);
+  //     },
+  //     error: () => {
+  //       this._router.navigate(["/login"]);
+  //     },
+  //   });
+  // }
 
   getIdPayload() {
     this._auth.getIdPayload().subscribe({
@@ -49,7 +49,6 @@ export class DashboardComponent implements OnInit {
 
         this.userInfo = res
 
-  console.log(this.userInfo)
       },
       error: () =>{
         
@@ -57,6 +56,8 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
+
+
 
   // checkSessionValidity() {
   //   this._auth.checkSessionValidity().subscribe({
@@ -70,12 +71,12 @@ export class DashboardComponent implements OnInit {
 
   logOut(){
     this._auth.logout().subscribe({
-      next: () => console.log("out!"),
-      error: () => {
+      next: () => {
         this._router.navigate(["/login"])
+      },
+      error: (err) => {
+        throw new Error(err)
       }
     })
-    console.log("hi")
-    // this.checkSessionValidity()
   }
 }
