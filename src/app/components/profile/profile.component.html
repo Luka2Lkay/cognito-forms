@@ -1,0 +1,34 @@
+<nav class=" flex justify-evenly bg-gray-900 p-2 text-white dark:bg-gray-900">
+    <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <a routerLink="/dashboard">HOME</a>
+    </div>
+    <div class=" flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button (click)="logOut()">LOGOUT</button>
+    </div>
+</nav>
+
+<h1 class="text-center">PROFILE</h1>
+
+< class="mt-2 p-2 bg-yellow-600 mb-4 border-2">
+    <div class="flex flex-col items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button
+            class="flex mx-auto text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            id="user-menu-button">
+            <span class="sr-only">Open user menu</span>
+            @if(userInfo) {
+            <img class="w-8 h-8 rounded-full" src="{{userInfo}}" alt="user photo">
+            } @else {
+            <img src="https://i.postimg.cc/mrfHvdWF/img-placeholder.png" alt="Click to upload"
+                class="w-20 h-20 rounded-full">
+            }
+        </button>
+        <h2 class="mt-2 text-amber-100 text-xl">Lukhanyo Matshebelele</h2>
+
+        <div class="flex text-lg mt-2 flex-col gap-2">
+            <p class="text-gray-200">EMAIL: luka.matshebelele&commat;gmail.com</p>
+            <p class="text-gray-200">PHONE: 071 234 5678</p>
+            <p class="text-gray-200">ADDRESS: Marcus Garvey, Philippi East, Cape Town</p>
+            <p class="text-gray-200">SUBJECTS: Maths, Physics, and Life Sciences</p>
+        </div>
+    </div>
+    <!-- <button class="bg-black">UPDATE PASSWORD</button> -->
