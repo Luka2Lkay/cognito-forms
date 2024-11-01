@@ -48,7 +48,7 @@ export class AuthService {
     if (user) {
       user.getSession((err: any, session: CognitoUserSession) => {
         if (!err) {
-          console.log(session.getIdToken())
+          // console.log(session.getIdToken())
           this.sessionToken$ = session.getIdToken().getJwtToken();
         }
       });
@@ -73,7 +73,7 @@ export class AuthService {
             // sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
             this.setUser(this.cognitoUser);
           }
-          console.log(this.userPool.getCurrentUser());
+          // console.log(this.userPool.getCurrentUser());
 
           // console.log(this.idToken$)
 
