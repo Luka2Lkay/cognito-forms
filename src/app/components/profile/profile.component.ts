@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
 import { Router, RouterModule } from "@angular/router";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: "app-profile",
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, FooterComponent],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
 })
