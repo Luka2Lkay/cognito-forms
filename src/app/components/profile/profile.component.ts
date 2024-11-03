@@ -28,6 +28,6 @@ export class ProfileComponent implements OnInit {
   }
 
   redirectToUpdateProfile() {
-    
+    this._router.navigate(["/update-password"])
   }
 }
