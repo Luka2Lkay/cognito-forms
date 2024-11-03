@@ -1,11 +1,12 @@
-<nav class=" flex justify-evenly text-white p-2 bg-black border-gray-200  dark:bg-gray-900">
+<!-- <nav class=" flex justify-evenly text-white p-2 bg-black border-gray-200  dark:bg-gray-900">
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <a routerLink="/profile">PROFILE</a>
     </div>
     <div class=" flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <button (click)="logOut()">LOGOUT</button>
     </div>
-</nav>
+</nav> -->
+<app-nav></app-nav>
 
 @if(userInfo){
 <p class="ml-2">Email: {{userInfo.email}}</p>

@@ -3,10 +3,11 @@ import { AuthService } from "../../services/auth/auth.service";
 import { RouterModule } from "@angular/router";
 import { Router } from "@angular/router";
 import { isPlatformBrowser } from "@angular/common";
+import { NavComponent } from "../nav/nav.component";
 @Component({
   selector: "app-dashboard",
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, NavComponent],
   templateUrl: "./dashboard.component.html",
   styleUrl: "./dashboard.component.css",
 })
