@@ -2,11 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
 import { Router, RouterModule } from "@angular/router";
 import { FooterComponent } from "../footer/footer.component";
+import { NavComponent } from "../nav/nav.component";
 
 @Component({
   selector: "app-profile",
   standalone: true,
-  imports: [RouterModule, FooterComponent],
+  imports: [RouterModule, FooterComponent, NavComponent],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
 })
@@ -16,16 +17,7 @@ export class ProfileComponent implements OnInit {
   userInfo: any;
   ngOnInit(): void {}
 
-  logOut() {
-    this._auth.logout().subscribe({
-      next: () => {
-        this._router.navigate(["/login"]);
-      },
-      error: (err) => {
-        throw new Error(err);
-      },
-    });
-  }
+
 
   redirectToUpdateProfile() {
     this._router.navigate(["/update-password"])
