@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
-import { Router } from "@angular/router";
+import { Router, RouterModule  } from "@angular/router";
 @Component({
   selector: "app-nav",
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: "./nav.component.html",
   styleUrl: "./nav.component.css",
 })
