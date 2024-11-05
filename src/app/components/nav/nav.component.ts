@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
 import { Router, RouterModule  } from "@angular/router";
 @Component({
@@ -10,6 +10,9 @@ import { Router, RouterModule  } from "@angular/router";
 })
 export class NavComponent {
   constructor(private _auth: AuthService, private _router: Router) {}
+  
+  @Input() value: any
+  
   logOut() {
     this._auth.logout().subscribe({
       next: () => {
