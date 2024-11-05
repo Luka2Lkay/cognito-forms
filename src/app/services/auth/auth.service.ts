@@ -1,4 +1,3 @@
-import { isPlatformBrowser } from "@angular/common";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import { BehaviorSubject, map, Observable } from "rxjs";
 import {
@@ -38,10 +37,6 @@ export class AuthService {
     if (this.cognitoUser) {
       this.initialiseSessionToken(this.cognitoUser);
     }
-    // if (isPlatformBrowser(this._platformId)) {
-    //   this.userSe$ = sessionStorage.getItem("user");
-    //   this.idToken$ = sessionStorage.getItem("idToken");
-    // }
   }
 
   initialiseSessionToken(user: CognitoUser) {
@@ -248,15 +243,46 @@ export class AuthService {
   //   });
   // }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    const user = this.getCurrentUser();
+
+    return new Observable((observer) => {
+      if (user) {
+        user.changePassword(oldPassword, newPassword, (err, result) => {
+          if (err) {
+            return observer.error(err);
+          }
+
+          return observer.next(result);
+        });
+      } else {
+        return observer.error("user not logged in!");
+      }
+    });
+
+    // return Observable.create((observer: Observer<any>) => {
+    //   this.user.changePassword(
+    //     'Testing12345!',
+    //     'Testing1234!',
+    //     (err, result) => {
+    //       if (err) {
+    //         return observer.error(err);
+    //       }
+    //       observer.next(result);
+    //     }
+    //   );
+    // });
+  }
+
   logout(): Observable<any> {
     const user = this.getCurrentUser();
 
     return new Observable((observer) => {
-      console.log("mxm")
-      if(user){
-        user.signOut()
+      console.log("mxm");
+      if (user) {
+        user.signOut();
         observer.next();
-      // observer.next(user);
+        // observer.next(user);
       }
     });
   }
