@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   logInForm: FormGroup = this._fb.group({
     email: "luka.matshebelele@gmail.com",
-    password: "Lukhanyo#5",
+    password: "Lukhanyo#1",
   });
 
   logIn() {
