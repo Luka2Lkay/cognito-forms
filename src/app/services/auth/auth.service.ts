@@ -1,3 +1,4 @@
+import { CommonEngine } from "@angular/ssr";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import { BehaviorSubject, map, Observable } from "rxjs";
 import {
@@ -234,19 +235,43 @@ export class AuthService {
     });
   }
 
-  resetPassword(email: string) {
+  resetPassword(email: string): Observable<string> {
     this.cognitoUser = new CognitoUser({
       Username: email,
       Pool: this.userPool,
     });
 
-    this.cognitoUser.forgotPassword({
-      onSuccess: () => {
-        console.log("sent reset code");
-      },
-      onFailure: (err) => {
-        console.error(err);
-      },
+    return new Observable((observer) => {
+      if (this.cognitoUser) {
+        this.cognitoUser.forgotPassword({
+          onSuccess: () => {
+            observer.next("sent reset code");
+          },
+          onFailure: (err) => {
+            observer.error(err);
+          },
+        });
+      }
+    });
+  }
+
+  confirmPassword(email: string, code: string, newPassword: string) {
+    this.cognitoUser = new CognitoUser({
+      Username: email,
+      Pool: this.userPool,
+    });
+
+    return new Observable((obsever) => {
+      if (this.cognitoUser) {
+        this.cognitoUser.confirmPassword(code, newPassword, {
+          onSuccess: () => {
+            obsever.next("Password changed!");
+          },
+          onFailure: (err) => {
+            obsever.error(err);
+          },
+        });
+      }
     });
   }
 
