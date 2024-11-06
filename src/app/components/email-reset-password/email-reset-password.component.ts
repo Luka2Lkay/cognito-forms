@@ -12,7 +12,11 @@ import { NavComponent } from "../nav/nav.component";
   styleUrl: "./email-reset-password.component.css",
 })
 export class EmailResetPasswordComponent implements OnInit {
-  constructor(private _auth: AuthService, private _fb: FormBuilder, private _router: Router) {}
+  constructor(
+    private _auth: AuthService,
+    private _fb: FormBuilder,
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -21,7 +25,10 @@ export class EmailResetPasswordComponent implements OnInit {
   });
 
   sendLink() {
-
-this._router.navigate(["/reset-password"]);
+    this._auth.resetPassword(this.emailForm.value.email).subscribe({
+      next: () => {
+        this._router.navigate(["/reset-password"]);
+      },
+    });
   }
 }
