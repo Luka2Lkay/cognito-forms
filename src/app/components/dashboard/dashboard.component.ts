@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   userInfo: any;
   
   ngOnInit(): void {
-    // this.checkSessionValidity();
+
     this.getIdPayload();
   }
 

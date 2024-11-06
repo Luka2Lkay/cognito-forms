@@ -53,6 +53,7 @@ export class ResetPasswordComponent implements OnInit {
       this._auth.confirmPassword(this.email, code, newPassword).subscribe({
         next: () => {
           this._router.navigate(["/login"]);
+          sessionStorage.removeItem("email");
         },
       });
     } else {
