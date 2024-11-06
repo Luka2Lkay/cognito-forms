@@ -17,9 +17,11 @@ export class ProfileComponent implements OnInit {
   userInfo: any;
   ngOnInit(): void {}
 
+  redirectToUpdatePassword() {
+    this._router.navigate(["/update-password"]);
+  }
 
-
-  redirectToUpdateProfile() {
-    this._router.navigate(["/update-password"])
+  redirectToResetPassword() {
+    this._router.navigate(["/reset-password"]);
   }
 }

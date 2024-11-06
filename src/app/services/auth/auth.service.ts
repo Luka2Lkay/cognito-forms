@@ -234,13 +234,20 @@ export class AuthService {
     });
   }
 
-  resetPassword(email: string): Observable<any> {
+  resetPassword(email: string) {
     this.cognitoUser = new CognitoUser({
       Username: email,
       Pool: this.userPool,
     });
 
-    return new Observable((observer) => {});
+    this.cognitoUser.forgotPassword({
+      onSuccess: () => {
+        console.log("sent reset code");
+      },
+      onFailure: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   logout(): Observable<any> {
@@ -251,7 +258,6 @@ export class AuthService {
       if (user) {
         user.signOut();
         observer.next();
-        // observer.next(user);
       }
     });
   }
