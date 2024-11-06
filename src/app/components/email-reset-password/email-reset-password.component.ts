@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { RouterModule, Router } from "@angular/router";
 import { ReactiveFormsModule, FormBuilder, FormGroup } from "@angular/forms";
 import { AuthService } from "../../services/auth/auth.service";
 import { NavComponent } from "../nav/nav.component";
@@ -12,7 +12,7 @@ import { NavComponent } from "../nav/nav.component";
   styleUrl: "./email-reset-password.component.css",
 })
 export class EmailResetPasswordComponent implements OnInit {
-  constructor(private _auth: AuthService, private _fb: FormBuilder) {}
+  constructor(private _auth: AuthService, private _fb: FormBuilder, private _router: Router) {}
 
   ngOnInit(): void {}
 
@@ -22,5 +22,6 @@ export class EmailResetPasswordComponent implements OnInit {
 
   sendLink() {
 
+this._router.navigate(["/reset-password"]);
   }
 }

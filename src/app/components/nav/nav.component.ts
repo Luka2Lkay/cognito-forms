@@ -10,9 +10,9 @@ import { Router, RouterModule  } from "@angular/router";
 })
 export class NavComponent {
   constructor(private _auth: AuthService, private _router: Router) {}
-  
-  @Input() value: any
-  
+   
+  @Input() loggedIn: boolean = false;
+
   logOut() {
     this._auth.logout().subscribe({
       next: () => {
