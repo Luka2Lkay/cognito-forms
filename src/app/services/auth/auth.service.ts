@@ -222,27 +222,6 @@ export class AuthService {
     });
   }
 
-  // checkSessionValidity(): Observable<boolean> {
-  //   const user = this.getCurrentUser();
-
-  //   return new Observable((observable) => {
-  //     if (user) {
-  //       user.getSession((err: any, session: CognitoUserSession) => {
-  //         if (err) {
-  //           return observable.error(err);
-  //         }
-  //         return observable.next(session.isValid());
-  //       });
-  //     } else {
-  //       if (this.userSe$) {
-  //         return observable.next(true);
-  //       } else {
-  //         return observable.error("Not signed in!");
-  //       }
-  //     }
-  //   });
-  // }
-
   changePassword(oldPassword: string, newPassword: string): Observable<any> {
     const user = this.getCurrentUser();
 
