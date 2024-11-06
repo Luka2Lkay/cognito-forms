@@ -217,7 +217,7 @@ export class AuthService {
       if (this.cognitoUser) {
         this.cognitoUser.forgotPassword({
           onSuccess: () => {
-            observer.next("sent reset code");
+            observer.next();
           },
           onFailure: (err) => {
             observer.error(err);
@@ -237,7 +237,7 @@ export class AuthService {
       if (this.cognitoUser) {
         this.cognitoUser.confirmPassword(code, newPassword, {
           onSuccess: () => {
-            obsever.next("Password changed!");
+            obsever.next();
           },
           onFailure: (err) => {
             obsever.error(err);
