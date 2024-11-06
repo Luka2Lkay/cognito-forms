@@ -6,6 +6,7 @@ import { ConfirmationComponent } from "./components/confirmation/confirmation.co
 import { ProfileComponent } from "./components/profile/profile.component";
 import { UpdatePasswordComponent } from "./components/update-password/update-password.component";
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
+import { EmailResetPasswordComponent } from "./components/email-reset-password/email-reset-password.component";
 
 export const routes: Routes = [
   { path: "", redirectTo: "/register", pathMatch: "full" },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "confirm", component: ConfirmationComponent },
   { path: "update-password", component: UpdatePasswordComponent },
-  {path: "reset-password", component: ResetPasswordComponent}
+  {path: "reset-password", component: ResetPasswordComponent},
+  {path: "reset-password/email", component: EmailResetPasswordComponent}
 ];

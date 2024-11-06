@@ -42,7 +42,6 @@ export class AuthService {
     if (user) {
       user.getSession((err: any, session: CognitoUserSession) => {
         if (!err) {
-          // console.log(session.getIdToken())
           this.sessionToken$ = session.getIdToken().getJwtToken();
         }
       });
@@ -88,8 +87,9 @@ export class AuthService {
         user.getSession((err: any, session: CognitoUserSession) => {
           observer.next(session.getIdToken().payload);
         });
+      } else {
+        return observer.error("The user is not signed in!");
       }
-      // return observer.error("no token!");
     });
   }
 
@@ -146,6 +146,7 @@ export class AuthService {
     return this.cognitoUser;
   }
 
+  //Refresh token method for the server-side
   private refreshToken() {
     const user = this.getCurrentUser();
 
@@ -153,7 +154,6 @@ export class AuthService {
     }
     // user.refreshSession
   }
-
 
   getAccessToken(): Observable<CognitoAccessToken> {
     const user = this.getCurrentUser();
