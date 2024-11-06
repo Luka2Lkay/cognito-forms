@@ -20,7 +20,6 @@ export class AuthService {
   private cognitoUser: CognitoUser | null = null;
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   public isAthenticated$ = this.isAuthenticated.asObservable();
-  public email$ = "";
   public userSe$: string | null = "";
   public idToken$: string | null = "";
   private sessionToken$: string | null = "";
@@ -108,7 +107,6 @@ export class AuthService {
           if (err) {
             observer.error(err.message);
           } else {
-            this.email$ = data.email;
             observer.next();
             observer.complete();
           }
