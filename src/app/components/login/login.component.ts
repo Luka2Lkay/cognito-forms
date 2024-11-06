@@ -35,4 +35,8 @@ export class LoginComponent implements OnInit {
 
   isEmailValid() {}
   closeToast() {}
+
+  redirectToResetPassword() {
+    this._router.navigate(["/reset-password"]);
+  }
 }

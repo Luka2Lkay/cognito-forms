@@ -20,8 +20,4 @@ export class ProfileComponent implements OnInit {
   redirectToUpdatePassword() {
     this._router.navigate(["/update-password"]);
   }
-
-  redirectToResetPassword() {
-    this._router.navigate(["/reset-password"]);
-  }
 }
