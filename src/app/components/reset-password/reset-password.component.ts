@@ -13,7 +13,15 @@ import { RouterModule} from "@angular/router";
 export class ResetPasswordComponent implements OnInit {
   constructor(private _auth: AuthService, private _fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  codeSent: boolean = false;
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.codeSent = false;
+    }, 2000);
+
+    this.codeSent = true;
+  }
 
   resetPasswordForm: FormGroup = this._fb.group({
     newPassword: "",

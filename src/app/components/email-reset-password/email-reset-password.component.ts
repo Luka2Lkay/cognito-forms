@@ -20,6 +20,8 @@ export class EmailResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  invalidEmail: boolean = false;
+
   emailForm: FormGroup = this._fb.group({
     email: "",
   });
@@ -28,6 +30,13 @@ export class EmailResetPasswordComponent implements OnInit {
     this._auth.resetPassword(this.emailForm.value.email).subscribe({
       next: () => {
         this._router.navigate(["/reset-password"]);
+      },
+      error: () => {
+        setTimeout(() => {
+          this.invalidEmail = false;
+        }, 2000);
+
+        this.invalidEmail = true;
       },
     });
   }
