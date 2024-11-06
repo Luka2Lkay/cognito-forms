@@ -251,7 +251,6 @@ export class AuthService {
     const user = this.getCurrentUser();
 
     return new Observable((observer) => {
-      console.log("mxm");
       if (user) {
         user.signOut();
         observer.next();
