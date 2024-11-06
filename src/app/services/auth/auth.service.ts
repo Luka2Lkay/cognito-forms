@@ -95,7 +95,8 @@ export class AuthService {
 
   register(data: User): Observable<void> {
     const attributes = [
-      new CognitoUserAttribute({ Name: "email", Value: data.email }),
+      new CognitoUserAttribute({ Name: "email", Value: data.email },
+      ),
     ];
 
     return new Observable((observer) => {
@@ -106,6 +107,7 @@ export class AuthService {
         [],
         (err, result) => {
           if (err) {
+            console.log("crazy!")
             observer.error(err.message);
           } else {
             this.email$ = data.email;
