@@ -1,6 +1,6 @@
 import { CommonEngine } from "@angular/ssr";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import {
   AuthenticationDetails,
   CognitoAccessToken,
@@ -12,7 +12,6 @@ import {
 } from "amazon-cognito-identity-js";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
-import { Session } from "node:inspector";
 
 @Injectable({
   providedIn: "root",
@@ -82,16 +81,6 @@ export class AuthService {
       });
     });
   }
-
-  // getIdPayload(): Observable<any> {
-
-  //   return new Observable((observer) => {
-  //     if (this.idToken$) {
-  //       return observer.next(JSON.parse(this.idToken$).payload);
-  //     }
-  //     // return observer.error("no token!");
-  //   });
-  // }
 
   getIdPayload(): Observable<any> {
     const user = this.getCurrentUser();
@@ -166,22 +155,6 @@ export class AuthService {
     // user.refreshSession
   }
 
-  getSession(): Observable<CognitoUserSession> {
-    const user = this.getCurrentUser();
-
-    return new Observable((observer) => {
-      if (user) {
-        user.getSession((err: any, session: CognitoUserSession) => {
-          if (err) {
-            return observer.error(err);
-          }
-          return observer.next(session);
-        });
-      } else {
-        throw new Error("There user is not signed in!");
-      }
-    });
-  }
 
   getAccessToken(): Observable<CognitoAccessToken> {
     const user = this.getCurrentUser();
