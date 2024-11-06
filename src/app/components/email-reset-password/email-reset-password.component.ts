@@ -29,7 +29,8 @@ export class EmailResetPasswordComponent implements OnInit {
   sendLink() {
     this._auth.resetPassword(this.emailForm.value.email).subscribe({
       next: () => {
-        this._router.navigate(["/reset-password"]);
+        this._router.navigate(["/email/reset-password"]);
+        sessionStorage.setItem("email", this.emailForm.value.email)
       },
       error: () => {
         setTimeout(() => {
@@ -37,6 +38,8 @@ export class EmailResetPasswordComponent implements OnInit {
         }, 2000);
 
         this.invalidEmail = true;
+
+        
       },
     });
   }

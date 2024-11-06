@@ -16,6 +16,6 @@ export const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "confirm", component: ConfirmationComponent },
   { path: "update-password", component: UpdatePasswordComponent },
-  {path: "reset-password", component: ResetPasswordComponent},
-  {path: "reset-password/email", component: EmailResetPasswordComponent}
+  {path: "email/reset-password", component: ResetPasswordComponent},
+  {path: "email", component: EmailResetPasswordComponent}
 ];

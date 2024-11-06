@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   logInForm: FormGroup = this._fb.group({
     email: "luka.matshebelele@gmail.com",
-    password: "Lukhanyo#1",
+    password: "Lukhanyo#2",
   });
 
   logIn() {
@@ -37,6 +37,6 @@ export class LoginComponent implements OnInit {
   closeToast() {}
 
   redirectToResetPassword() {
-    this._router.navigate(["/reset-password"]);
+    this._router.navigate(["/email/reset-password"]);
   }
 }
