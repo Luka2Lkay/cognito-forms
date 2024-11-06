@@ -65,18 +65,12 @@ export class AuthService {
       this.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
           if (this.cognitoUser) {
-            // sessionStorage.setItem("user", JSON.stringify(this.cognitoUser));
             this.setUser(this.cognitoUser);
           }
-          // console.log(this.userPool.getCurrentUser());
-
-          // console.log(this.idToken$)
 
           this.getIdToken().subscribe({
             next: (res) => {
               this.setIdToken(res);
-              // console.log(res);
-              // sessionStorage.setItem("idToken", JSON.stringify(res));
             },
           });
           observer.next();
@@ -238,19 +232,15 @@ export class AuthService {
         return observer.error("user not logged in!");
       }
     });
+  }
 
-    // return Observable.create((observer: Observer<any>) => {
-    //   this.user.changePassword(
-    //     'Testing12345!',
-    //     'Testing1234!',
-    //     (err, result) => {
-    //       if (err) {
-    //         return observer.error(err);
-    //       }
-    //       observer.next(result);
-    //     }
-    //   );
-    // });
+  resetPassword(email: string): Observable<any> {
+    this.cognitoUser = new CognitoUser({
+      Username: email,
+      Pool: this.userPool,
+    });
+
+    return new Observable((observer) => {});
   }
 
   logout(): Observable<any> {
