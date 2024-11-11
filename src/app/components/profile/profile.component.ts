@@ -16,11 +16,9 @@ export class ProfileComponent implements OnInit {
 
   userInfo: any;
 
-
   ngOnInit(): void {
     this.getPayLoad();
   }
-
 
   getPayLoad(){
     this._auth.getIdPayload().subscribe({

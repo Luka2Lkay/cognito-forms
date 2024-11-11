@@ -32,10 +32,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   registerForm: FormGroup = this._fb.group({
-    userName: "Luks",
-    email: "luka.matshebelele@gmail.com",
-    password: "Lukhanyo#5",
-    confirmPassword: "Lukhanyo#5",
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   isEmailValid() {}
