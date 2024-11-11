@@ -2,7 +2,6 @@ import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { AuthService } from "../../services/auth/auth.service";
 import { RouterModule } from "@angular/router";
 import { Router } from "@angular/router";
-import { isPlatformBrowser } from "@angular/common";
 import { NavComponent } from "../nav/nav.component";
 @Component({
   selector: "app-dashboard",
@@ -15,7 +14,6 @@ export class DashboardComponent implements OnInit {
   constructor(
     private _auth: AuthService,
     private _router: Router,
-    @Inject(PLATFORM_ID) private _platformId: Object
   ) {}
 
   userInfo: any;

@@ -15,7 +15,24 @@ export class ProfileComponent implements OnInit {
   constructor(private _auth: AuthService, private _router: Router) {}
 
   userInfo: any;
-  ngOnInit(): void {}
+
+
+  ngOnInit(): void {
+    this.getPayLoad();
+  }
+
+
+  getPayLoad(){
+    this._auth.getIdPayload().subscribe({
+      next: res => {
+        this.userInfo = res;
+      },
+      error: (error) => {
+  
+        this._router.navigate(["/login"]);
+      }
+    })
+  }
 
   redirectToUpdatePassword() {
     this._router.navigate(["/update-password"]);
