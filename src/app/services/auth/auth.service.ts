@@ -87,9 +87,7 @@ export class AuthService {
         user.getSession((err: any, session: CognitoUserSession) => {
           observer.next(session.getIdToken().payload);
         });
-      } else {
-        return observer.error("The user is not signed in!");
-      }
+      } 
     });
   }
 
@@ -168,9 +166,7 @@ export class AuthService {
           }
           return observer.next(session.getAccessToken());
         });
-      } else {
-        throw new Error("There user is not signed in!");
-      }
+      } 
     });
   }
 
@@ -185,9 +181,7 @@ export class AuthService {
           }
           return observer.next(session.getIdToken());
         });
-      } else {
-        return observer.error("error!");
-      }
+      } 
     });
   }
 
@@ -203,9 +197,7 @@ export class AuthService {
 
           return observer.next(result);
         });
-      } else {
-        return observer.error("user not logged in!");
-      }
+      } 
     });
   }
 
