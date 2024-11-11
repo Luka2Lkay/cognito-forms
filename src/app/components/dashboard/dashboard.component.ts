@@ -25,25 +25,6 @@ export class DashboardComponent implements OnInit {
     this.getIdPayload();
   }
 
-  // getSession() {
-  //   this._auth.getSession().subscribe({
-  //     next: (res) => console.log(res),
-  //   });
-  //   this._auth.idToken$;
-  // }
-
-  // getAccessToken() {
-  //   this._auth.getAccessToken().subscribe({
-  //     next: (res) => {
-
-  //       console.log(res);
-  //     },
-  //     error: () => {
-  //       this._router.navigate(["/login"]);
-  //     },
-  //   });
-  // }
-
   getIdPayload() {
     this._auth.getIdPayload().subscribe({
       next: (res) => {
@@ -54,16 +35,6 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
-
-  // checkSessionValidity() {
-  //   this._auth.checkSessionValidity().subscribe({
-  //     next: (res) => console.log(res),
-  //     error: (error) => {
-
-  //       this._router.navigate(["/login"]);
-  //     },
-  //   });
-  // }
 
   logOut() {
     this._auth.logout().subscribe({
